@@ -9,79 +9,20 @@ from alpaca.data.enums import DataFeed
 
 '''
 
-    description:
+    Description:
 
-        get realtime bid/ask spread data with a persistent connection:
+        Script to get realtime bid/ask spread data with a persistent connection using multiprocessing python library.
+        NOTE: multiproccessing processes don't share state, threads in the python threading library do though.
 
-                "The get_stock_latest_quote() function is a good way to get the latest quote data for a specific stock. However, if you need real-time data and you're making requests frequently (like every 5 seconds), using the StockDataStream class might be a more efficient approach. The StockDataStream class allows you to subscribe to real-time data via WebSockets. This means that instead of making a new request every few seconds, you establish a persistent connection and receive updates as they happen. This can provide better performance and more timely data."
-                    Kapa AI, chatbot on Alpaca Slack Q&A Channel
+    Sources:
 
-    sources:
-
-        https://alpaca.markets/sdks/python/api_reference/data/stock/live.html
-        https://app.slack.com/client/TD8AD6C1J/CEL9HCSN4
+        "The get_stock_latest_quote() function is a good way to get the latest quote data for a specific stock. However, if you need real-time data and you're making requests frequently (like every 5 seconds), using the StockDataStream class might be a more efficient approach. The StockDataStream class allows you to subscribe to real-time data via WebSockets. This means that instead of making a new request every few seconds, you establish a persistent connection and receive updates as they happen. This can provide better performance and more timely data."
+            - Kapa AI, chatbot on Alpaca Slack Q&A Channel
+                https://app.slack.com/client/TD8AD6C1J/CEL9HCSN4
 
         TODO: maybe use this library instead of multiprocessing
             https://pythonhosted.org/Pebble/#concurrent-functions
                 recommendation source: https://stackoverflow.com/questions/32053618/how-to-to-terminate-process-using-pythons-multiprocessing
-
-        convo with chatgpt about library choice
-
-            asyncio and threading are both concurrency mechanisms in Python, but they have different approaches to handling concurrent tasks. Here's a comparison of asyncio and threading along with their use cases:
-            asyncio:
-
-                Concurrency Model:
-                    Asynchronous (Event-driven): asyncio is designed for asynchronous programming using the event-driven concurrency model. It allows you to write non-blocking code using coroutines.
-
-                Execution Model:
-                    Single-threaded Event Loop: asyncio typically runs in a single-threaded event loop. Multiple tasks can be interleaved within the same thread using coroutines.
-
-                Use Cases:
-                    I/O-bound Operations: asyncio is well-suited for I/O-bound tasks, such as network operations or file I/O, where waiting for external resources doesn't block the entire program.
-                    Highly Concurrent Servers: It is commonly used in building high-concurrency network servers and applications.
-
-                Pros:
-                    Scalability: Well-suited for handling a large number of concurrent I/O-bound operations efficiently.
-                    No Thread-Related Overhead: Avoids the overhead associated with threading, making it more lightweight.
-
-                Cons:
-                    CPU-bound Tasks: Not the best choice for CPU-bound tasks, as it doesn't provide true parallelism.
-
-            threading:
-
-                Concurrency Model:
-                    Thread-based: threading provides a multi-threading model where each thread runs in parallel, potentially on multiple CPU cores.
-
-                Execution Model:
-                    Multiple Threads: threading allows multiple threads to run concurrently, each with its own execution path.
-
-                Use Cases:
-                    CPU-bound Operations: Suitable for tasks that are CPU-bound and can benefit from parallel execution, as threads run concurrently on multiple cores.
-                    Parallelism: Useful for parallelizing independent tasks to improve overall program performance.
-
-                Pros:
-                    Parallel Execution: Well-suited for CPU-bound tasks where parallel execution can provide performance benefits.
-                    Broad Compatibility: Works well with existing synchronous code that is not designed for asynchronous execution.
-
-                Cons:
-                    GIL (Global Interpreter Lock): In CPython (the default Python implementation), the Global Interpreter Lock can limit the effectiveness of threading for CPU-bound tasks, as it allows only one thread to execute Python bytecode at a time.
-
-            Common Considerations:
-
-                Ease of Use:
-                    asyncio: Requires understanding and working with asynchronous programming concepts like coroutines and event loops.
-                    threading: More traditional and might be easier for developers familiar with multi-threading concepts.
-
-                Concurrency vs. Parallelism:
-                    asyncio: Primarily for concurrency, not true parallelism.
-                    threading: Enables true parallelism, especially on multi-core systems.
-
-                Compatibility:
-                    asyncio: Best suited for new projects or projects designed for asynchronous programming.
-                    threading: Can be used with existing synchronous code but may have limitations due to the Global Interpreter Lock in CPython.
-
-            In summary, asyncio is well-suited for I/O-bound tasks with high concurrency requirements, while threading is more appropriate for CPU-bound tasks that can benefit from parallel execution. The choice between them depends on the nature of the problem you are solving and the type of tasks your application needs to handle. Additionally, the use of other concurrency libraries, such as multiprocessing, is another consideration for certain scenarios.
-
 
 '''
 

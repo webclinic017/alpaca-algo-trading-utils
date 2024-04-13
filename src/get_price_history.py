@@ -113,7 +113,7 @@ if __name__ == '__main__':
         os.makedirs(output_dir_path)
 
     for i, row in df0.iterrows():
-        if i < 1975: continue # for testing purposes only, also this script sometimes gets stuck
+        # if i < 1975: continue # for testing purposes only, also this script sometimes gets stuck
         ticker = row['ticker']
         print(f"ticker {i + 1} of {df0.shape[0]}: {ticker}")
         df = get_price_history(ticker)

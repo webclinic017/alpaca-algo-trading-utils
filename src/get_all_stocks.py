@@ -103,6 +103,7 @@ for i, asset in enumerate(assets):
 		# asset.fractionable:
 
 		assets_to_save.append(asset.symbol)
+assets_to_save = sorted(assets_to_save)
 
 filename = "all_shortable_alpaca_stocks.csv"
 # filename = "all_fractional_and_non_fractionable_alpaca_stocks.csv"

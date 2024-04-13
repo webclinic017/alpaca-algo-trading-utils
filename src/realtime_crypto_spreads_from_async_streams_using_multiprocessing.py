@@ -2,6 +2,11 @@
 '''
 
     description:
+        use multiprocessing library to stream crypto price data.
+
+    todo:
+        use threading library instead of multiprocessing to share state between threads
+            (see realtime_stock_spreads_from_async_streams.py file)
 
 '''
 

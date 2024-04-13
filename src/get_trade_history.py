@@ -22,7 +22,7 @@ from alpaca.data import StockHistoricalDataClient
 # Alpaca API Constants
 LIVE_TRADING = False
 CREDENTIALS_FILEPATH = \
-    "/home/luke/rooms/money/exchanges_and_data_sources/exchanges/alpaca/algo-trading/src/credentials.json"
+    "/home/luke/rooms/money/exchanges_and_data_sources/exchanges/alpaca/alpaca-algo-trading-utils/src/credentials.json"
 with open(CREDENTIALS_FILEPATH) as f:
 	creds = json.load(f)
 ENDPOINT   = creds['live_trading' if LIVE_TRADING else 'paper_trading']['ENDPOINT']
@@ -68,7 +68,7 @@ for symbol in tickers:
             print(f'            {trade.conditions}') # Optional[List[str]]
             print(f'            {trade.tape}') # Optional[str]
             # source: file at:
-            # /home/luke/rooms/money/exchanges_and_data_sources/exchanges/alpaca/algo-trading/src/virt_env/lib/python3.11/site-packages/alpaca/data/models/trades.py
+            # /home/luke/rooms/money/exchanges_and_data_sources/exchanges/alpaca/alpaca-algo-trading-utils/src/virt_env/lib/python3.11/site-packages/alpaca/data/models/trades.py
 print()
 
 
@@ -82,19 +82,19 @@ the docs say it can also be just a string but when setting it to for example "AA
 and running it during a time when theres no trades (ex: Saturday) i get this error:
 
     Traceback (most recent call last):
-    File "/home/luke/rooms/money/exchanges_and_data_sources/exchanges/alpaca/algo-trading/src/get_all_trades.py", line 48, in <module>
+    File "/home/luke/rooms/money/exchanges_and_data_sources/exchanges/alpaca/alpaca-algo-trading-utils/src/get_all_trades.py", line 48, in <module>
         all_trades = data_client.get_stock_trades(request_params)
                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    File "/home/luke/rooms/money/exchanges_and_data_sources/exchanges/alpaca/algo-trading/src/virt_env/lib/python3.11/site-packages/alpaca/data/historical/stock.py", line 154, in get_stock_trades
+    File "/home/luke/rooms/money/exchanges_and_data_sources/exchanges/alpaca/alpaca-algo-trading-utils/src/virt_env/lib/python3.11/site-packages/alpaca/data/historical/stock.py", line 154, in get_stock_trades
         return TradeSet(raw_trades)
             ^^^^^^^^^^^^^^^^^^^^
-    File "/home/luke/rooms/money/exchanges_and_data_sources/exchanges/alpaca/algo-trading/src/virt_env/lib/python3.11/site-packages/alpaca/data/models/trades.py", line 71, in __init__
+    File "/home/luke/rooms/money/exchanges_and_data_sources/exchanges/alpaca/alpaca-algo-trading-utils/src/virt_env/lib/python3.11/site-packages/alpaca/data/models/trades.py", line 71, in __init__
         parsed_trades[symbol] = [Trade(symbol, trade) for trade in trades]
                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    File "/home/luke/rooms/money/exchanges_and_data_sources/exchanges/alpaca/algo-trading/src/virt_env/lib/python3.11/site-packages/alpaca/data/models/trades.py", line 71, in <listcomp>
+    File "/home/luke/rooms/money/exchanges_and_data_sources/exchanges/alpaca/alpaca-algo-trading-utils/src/virt_env/lib/python3.11/site-packages/alpaca/data/models/trades.py", line 71, in <listcomp>
         parsed_trades[symbol] = [Trade(symbol, trade) for trade in trades]
                                 ^^^^^^^^^^^^^^^^^^^^
-    File "/home/luke/rooms/money/exchanges_and_data_sources/exchanges/alpaca/algo-trading/src/virt_env/lib/python3.11/site-packages/alpaca/data/models/trades.py", line 48, in __init__
+    File "/home/luke/rooms/money/exchanges_and_data_sources/exchanges/alpaca/alpaca-algo-trading-utils/src/virt_env/lib/python3.11/site-packages/alpaca/data/models/trades.py", line 48, in __init__
         for key, val in raw_data.items()
                         ^^^^^^^^^^^^^^
     AttributeError: 'NoneType' object has no attribute 'items'
