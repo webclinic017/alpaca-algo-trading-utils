@@ -1,7 +1,8 @@
 
 
 src/credentials.json
-src/virt_env/
+src/py_virt_env_manjaro_linux/
+src/py_virt_env_windows_wsl/
 
 data/
 
