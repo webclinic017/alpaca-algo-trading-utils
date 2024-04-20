@@ -57,23 +57,35 @@ SYMBOLS = [
     "COST",
     "TXN",
 ]
+
 # thread test functions
 async def quote_stream_test(quote):
     quote_received_time = datetime.now(ZoneInfo(TIMEZONE)).strftime(DATE_FMT)
-    try:
-        print('test quote update', quote_received_time, quote)
-    except:
-        print(f'\nException in quote thread!!!')
-        print(f'{traceback.format_exc()}')
-        raise
+    print('test quote update', quote_received_time, quote)
+    # try:
+    #     print('test quote update', quote_received_time, quote)
+    # except:
+    #     print(f'\nException in quote_stream!!!')
+    #     print(f'{traceback.format_exc()}')
+    #     raise
 async def trade_stream_test(trade):
+    trade_received_time = datetime.now(ZoneInfo(TIMEZONE)).strftime(DATE_FMT)
+    print('test trade update', trade_received_time, trade)
+    # try:
+    #     print('test trade update', trade_received_time, trade)
+    # except:
+    #     print(f'\nException in trade_stream!!!')
+    #     print(f'{traceback.format_exc()}')
+    #     raise
+async def my_trades_stream_test(trade):
     update_received_time = datetime.now(ZoneInfo(TIMEZONE)).strftime(DATE_FMT)
-    try:
-        print('test trade update', update_received_time, trade)
-    except:
-        print(f'\nException in trade thread!!!')
-        print(f'{traceback.format_exc()}')
-        raise
+    print('test my trade update', update_received_time, trade)
+    # try:
+    #     print('test trade update', update_received_time, trade)
+    # except:
+    #     print(f'\nException in my_trade_stream!!!')
+    #     print(f'{traceback.format_exc()}')
+    #     raise
 
 
 if __name__ == "__main__":
@@ -82,50 +94,54 @@ if __name__ == "__main__":
 
     # create quote thread
     # https://alpaca.markets/sdks/python/api_reference/data/stock/live.html#stockdatastream
-    quote_websocket_client = StockDataStream(API_KEY, API_SECRET, feed=DataFeed.IEX)
-    quote_websocket_client.subscribe_quotes(quote_stream_test, *SYMBOLS)
-    quote_thread = threading.Thread(target=quote_websocket_client.run)
+    price_data_websocket_client = StockDataStream(API_KEY, API_SECRET, feed=DataFeed.IEX)
+    price_data_websocket_client.subscribe_quotes(quote_stream_test, *SYMBOLS)
+    price_data_websocket_client.subscribe_trades(trade_stream_test, *SYMBOLS)
+    price_data_thread = threading.Thread(target=price_data_websocket_client.run)
 
     print(2)
 
     # create trade thread
     # https://alpaca.markets/sdks/python/api_reference/trading/stream.html#alpaca.trading.stream.TradingStream
-    trade_websocket_client = TradingStream(API_KEY, API_SECRET, paper=not LIVE_TRADING)
-    trade_websocket_client.subscribe_trade_updates(trade_stream_test)
-    trade_thread = threading.Thread(target=trade_websocket_client.run)
+    my_trades_websocket_client = TradingStream(API_KEY, API_SECRET, paper=not LIVE_TRADING)
+    my_trades_websocket_client.subscribe_trade_updates(my_trades_stream_test)
+    my_trades_thread = threading.Thread(target=my_trades_websocket_client.run)
 
     print(3)
 
     # start the threads
-    quote_thread.start()
+    price_data_thread.start()
     print(4)
-    trade_thread.start()
+    my_trades_thread.start()
     print(5)
 
     # keep main thread running unless manual intervention from terminal (Ctrl + C)
     while True:
         try:
-            time.sleep(5)
+            time.sleep(60)
         except KeyboardInterrupt:
-            print("\nShutting down...")
+            print("\nshutting down...")
             break
 
     print(6)
 
     # unsubscribe from quotes and close quotes and trades websocket streams
     # NOTE: if TradingStream had an unsubscribe method, then trade_thread.join() could run instantly (as it is it takes 5 seconds)
-    quote_websocket_client.unsubscribe_quotes(*SYMBOLS)
+    price_data_websocket_client.unsubscribe_quotes(*SYMBOLS)
+    price_data_websocket_client.unsubscribe_trades(*SYMBOLS)
     async def stop_streams():
-        await quote_websocket_client.stop_ws()
-        await trade_websocket_client.stop_ws()
+        await price_data_websocket_client.stop_ws()
+        await my_trades_websocket_client.stop_ws()
     asyncio.run(stop_streams())
 
     print(7)
 
     # join threads back into the main thread once they
-    # finish their current *_stream_test() call
-    quote_thread.join()
+    # finish their current *_stream() call
+    price_data_thread.join()
     print(8)
-    trade_thread.join()
+    my_trades_thread.join()
+    print(9)
 
-    print('\nTrading bot stopped\n')
+    print('trading bot stopped\n')
+
