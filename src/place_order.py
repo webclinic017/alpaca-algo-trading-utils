@@ -79,9 +79,18 @@ def close_all_positions(verbose=False):
 
 def close_position_by_ticker(verbose=False):
     # todo: close position by ticker
-    # source: https://alpaca.markets/sdks/python/api_reference/trading/positions.html
-    pass
+    # source: https://alpaca.markets/sdks/python/api_reference/trading/positions.html#close-a-position
 
+    portfolio = trading_client.get_all_positions()
+    if verbose: print(f'\n{len(portfolio)} position(s) in portfolio:')
+    for i, position in enumerate(portfolio):
+
+        # close position by symbol
+        # source: https://alpaca.markets/sdks/python/api_reference/trading/positions.html#close-a-position
+        order = trading_client.close_position(position.symbol) # return type = Order
+        # source: https://alpaca.markets/sdks/python/api_reference/trading/models.html#alpaca.trading.models.Order
+
+        if verbose: print(f"    closed position {i + 1} of {len(portfolio)}: {position.side.value} {position.qty} shares of {position.symbol} on the exchange {position.exchange.value}. P/L = ${'%.4f' % float(position.unrealized_pl)} = {'%.4f' % (100 * float(position.unrealized_plpc))} %. order id = {order.id}")
 
 
 
