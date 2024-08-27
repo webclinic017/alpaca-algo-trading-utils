@@ -198,11 +198,11 @@ def cancel_all_orders(verbose=False):
 
 def cancel_orders_by_id(verbose=False):
     orders = get_all_orders(verbose=False)
-    if verbose and len(orders) > 0: print('\ncancelling %d orders by id:' % len(orders))
+    if verbose and len(orders) > 0: print('\ncanceling %d orders by id:' % len(orders))
     for order in orders:
         order_id = order.id
         trading_client.cancel_order_by_id(order_id)
-        if verbose: print('\tcancelled order: %s' % order_id)
+        if verbose: print('\tcanceled order: %s' % order_id)
 
 
 
