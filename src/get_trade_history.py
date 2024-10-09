@@ -5,8 +5,7 @@
         script to get all trades of a given stock in a given timeframe
 
     sources
-        https://alpaca.markets/sdks/python/api_reference/data/stock/historical.html
-            ctrl f "get_stock_trades"
+        https://alpaca.markets/sdks/python/api_reference/data/stock/historical.html#get-stock-trades
         https://alpaca.markets/sdks/python/api_reference/data/stock/requests.html#alpaca.data.requests.StockTradesRequest
         https://alpaca.markets/sdks/python/api_reference/data/enums.html#alpaca.data.enums.DataFeed
 
